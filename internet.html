@@ -1,0 +1,166 @@
+internet extension:
+
+
+index.html:
+<html>
+    <head>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+       <input type="text" id="input-el">
+       <button id="input-btn">save input</button>
+       <ul id="ul-el">
+       </ul>
+       <script src="index.js"></script>
+    </body>
+</html>
+
+index.css:
+
+#input-el {
+    width:80%;
+    margin-top:2%;
+    height:20%;
+    border:solid 1px;
+    padding-top:10px; 
+    border-radius:1%;
+    
+}
+#input-btn {
+    margin-top:4%;
+    width:50%;
+    background: green;
+    padding: 5px 10px;
+}
+
+index.js
+
+let myLeads=['www.doogle.com','www.yahoo.com','www.google.com']
+const inputEl=document.getElementById('input-el')
+const inputBtn=document.getElementById('input-btn')
+const ulEl=document.getElementById('ul-el')
+console.log(ulEl)
+inputBtn.addEventListener('click',function() {
+   myLeads.push(inputEl.value)
+   console.log(myLeads)
+})
+    
+for (let i =0; i<myLeads.length;i++) {
+     ulEl.innerHTML += "<li>" + myLeads[i] + "</li>"
+}
+
+INNERHTML:
+
+const container=document.getElementById('container')
+container.innerHTML="<button onclick ='buy()'> buy!</button>"
+function buy() {
+    container.innerHTML="<p>THANKS FOR VISIT US</p>"
+}
+
+
+
+
+
+
+
+index.js for chrome extension app:
+
+let myLeads=[ ]
+const inputEl=document.getElementById('input-el')
+const inputBtn=document.getElementById('input-btn')
+const ulEl=document.getElementById('ul-el')
+console.log(ulEl)
+inputBtn.addEventListener('click',function() {
+   myLeads.push(inputEl.value)
+   inputEl.value=" "
+   renderLeads()
+})
+
+function renderLeads() {
+let listItems = " "
+for (let i =0; i<myLeads.length;i++) {
+     listItems += `
+     <li>
+     <a target='_blank' href='${myLeads[i]}'>
+       ${myLeads[i]}
+     </a>
+     </li>
+    `
+     console.log(listItems)
+   }
+ulEl.innerHTML=listItems
+}
+index.js:
+let myLeads=[ ] //empty array
+const inputEl=document.getElementById('input-el') //grab from html
+const inputBtn=document.getElementById('input-btn')//grab from html
+const ulEl=document.getElementById('ul-el')
+let leadsFromLocalStorage=JSON.parse(localStorage.getItem("myLeads")) //getting value from localstorage ,convert string into object
+
+console.log(leadsFromLocalStorage)
+   inputBtn.addEventListener('click',function() {  //using addEventListener method to click button
+                                                  //which contain function
+   myLeads.push(inputEl.value)                   
+   inputEl.value=" "                              //after enter the value inside the input text box                                                 existing value will disappear
+   localStorage.setItem("myLeads",JSON.stringify(myLeads)) 
+   renderLeads()
+   console.log(localStorage.getItem("myLeads"))
+})
+
+function renderLeads() {
+let listItems = " "
+for (let i =0; i<myLeads.length;i++) {
+     listItems += `
+     <li>
+     <a target='_blank' href='${myLeads[i]}'>
+       ${myLeads[i]}
+     </a>
+     </li>
+    `
+     console.log(listItems)
+   }
+ulEl.innerHTML=listItems
+}
+
+let myLeads=[ ] //empty array
+let oldLeads=[]
+const inputEl=document.getElementById('input-el') //grab from html
+const inputBtn=document.getElementById('input-btn')//grab from html
+const DeleteBtn=document.getElementById('delete-btn')
+const ulEl=document.getElementById('ul-el')
+let leadsFromLocalStorage=JSON.parse(localStorage.getItem("myLeads")) //getting value from localstorage ,convert string into object
+
+if (leadsFromLocalStorage) {
+    myLeads=leadsFromLocalStorage
+    renderLeads(myLeads)
+}
+function renderLeads(leads) {  //why here iam giving new variable in renderLeads function parameter. how assignment done
+let listItems = " "
+for (let i =0; i<leads.length;i++) {
+     listItems += `
+     <li>
+     <a target='_blank' href='${myLeads[i]}'>
+       ${myLeads[i]}
+     </a>
+     </li>
+    `
+   }
+
+   inputBtn.addEventListener('click',function() {  //using addEventListener method to click button
+                                                  //which contain function
+   myLeads.push(inputEl.value)                   
+   inputEl.value=" "                              //after enter the value inside the input text box                                                 existing value will disappear
+   localStorage.setItem("myLeads",JSON.stringify(myLeads)) 
+   renderLeads()
+})
+
+   DeleteBtn.addEventListener('dblclick',function() {  //using addEventListener method to click button
+      
+    console.log("double clicked!") 
+    localStorage.clear()
+    myLeads=[]   
+    renderLeads()        
+
+})
+ulEl.innerHTML=listItems
+}
